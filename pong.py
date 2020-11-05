@@ -1,10 +1,17 @@
 import turtle
+from playsound import playsound
 
 wn = turtle.Screen()
 wn.title("Pong by nayan")
 wn.bgcolor("black")
 wn.setup(width = 800 , height = 600)
 wn.tracer(0)
+
+#Score 
+
+score_a = 0
+score_b = 0
+
 
 #Paddle A
 paddle_a = turtle.Turtle()
@@ -34,8 +41,18 @@ ball.color("white")
 ball.shapesize() 
 ball.penup()
 ball.goto(0,0)
-ball.dx = 0.1
-ball.dy = -0.1
+ball.dx = 0.09
+ball.dy = -0.09
+
+#Pen
+
+pen = turtle.Turtle()
+pen.speed(0)
+pen.color("white")
+pen.penup()
+pen.hideturtle()
+pen.goto(0,260)
+pen.write("PlayerA: 0  PlayerB: 0" , align = "center" , font = ("Courier",24, "normal"))
 
 
 
@@ -83,6 +100,8 @@ while True:
     if ball.ycor() > 290:
         ball.sety(290)
         ball.dy *= -1
+        # playsound("bounce.wav", True)
+
 
     if ball.ycor() < -290:
         ball.sety(-290)
@@ -91,22 +110,32 @@ while True:
     if ball.xcor() > 390:
         ball.goto(0,0)
         ball.dx *= -1
+        score_a += 1
+        pen.clear()
+        pen.write("PlayerA: {}  PlayerB: {}".format(score_a , score_b) , align = "center" , font = ("Courier",24, "normal"))
+  
     
     if ball.xcor() < -390:
         ball.goto(0,0)
         ball.dx *= -1
+        score_b += 1
+        pen.clear()
+        pen.write("PlayerA: {}  PlayerB: {}".format(score_a , score_b) , align = "center" , font = ("Courier",24, "normal"))
+
 
     #paddle and ball collisions
 
-    if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < paddle_b.ycor() + 40 and ball.ycor() > paddle_b.ycor() -40):
+    if (ball.xcor() > 340 and ball.xcor() < 350)  and (ball.ycor() < paddle_b.ycor() + 40 and ball.ycor() > paddle_b.ycor() - 40):
         ball.setx(340)
-        ball.dx += -1 
-    
-    if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < paddle_a.ycor() + 40 and ball.ycor() > paddle_a.ycor() -40):
+        ball.dx *= -1
+     
+    if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < paddle_a.ycor() + 40 and ball.ycor() > paddle_a.ycor() - 40):
         ball.setx(-340)
-        ball.dx += -1 
+        ball.dx *= -1  
 
 
+            
 
 
     
+ 
